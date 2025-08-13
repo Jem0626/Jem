@@ -5,133 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>For My Love</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* Extra styles for pages */
-    .page {
-      display: none;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-    .active {
-      display: block;
-    }
-    /* Fix image size */
-    .pictures-page img {
-      width: 300px;
-      height: 300px;
-      object-fit: cover;
-      margin: 10px;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    }
-    /* Floating hearts */
-    .heart-floating {
-      position: absolute;
-      font-size: 24px;
-      color: #ff3366;
-      animation: floatHearts 6s linear infinite;
-      pointer-events: none;
-    }
-    @keyframes floatHearts {
-      0% { transform: translateY(100vh) scale(0.8) rotate(0deg); opacity: 0; }
-      20% { opacity: 1; }
-      50% { transform: translateY(50vh) scale(1.2) rotate(20deg); opacity: 0.8; }
-      80% { transform: translateY(20vh) scale(1) rotate(-20deg); opacity: 0.6; }
-      100% { transform: translateY(-10vh) scale(0.8) rotate(0deg); opacity: 0; }
-    }
-  </style>
 </head>
 <body>
-  <!-- Floating hearts container (outside pages!) -->
-  <div id="hearts-container"></div>
+  <div class="container">
+    <h1>For My Love, Alliah</h1>
 
-  <div id="mainPage" class="page active">
-    <div class="container">
-      <h1>For My Love, Alliah</h1>
-
-      <div id="message1" class="sweet-message">
-        Even if we’re miles apart, my heart feels like you’re right here beside me...
-      </div>
-
-      <div id="message2" class="sweet-message" style="display: none;">
-        Every message from you feels like a hug I can’t let go of...
-      </div> 
-
-      <div class="cupid">
-        <img src="https://ugokawaii.com/wp-content/uploads/2022/10/cupid.gif" alt="Cupid" />
-      </div>
-
-      <button id="showHeartButton">Heart</button>
-      <button id="nextMessageButton">Next Message</button>
-      <button id="picturesButton">📷 Pictures</button>
-
-      <div id="heart" class="heart"></div>
-      <div id="musicPlayer" class="music"></div>
+    <!-- Sweet Message with 10 sentences (Initial Message) -->
+    <div id="message1" class="sweet-message">
+Even if we’re miles apart, my heart feels like you’re right here beside me. Every day, I carry your smile, your laugh, and your love with me, like a little piece of home I can hold onto. Distance may keep us from holding hands, but it can’t stop me from loving you more each day. One day soon, the space between us will disappear, and I’ll finally get to tell you in person how much you mean to me. Until then, remember you’re my first thought in the morning, my last thought at night, and my favorite dream in between.
     </div>
+
+    <!-- Sweet Message with 10 sentences (Next Message - Initially hidden) -->
+    <div id="message2" class="sweet-message" style="display: none;">
+Every message from you feels like a hug I can’t let go of a gentle reminder that no matter how far we are, your love still reaches me. I miss you in ways words could never fully capture. Sometimes it’s in the quiet moments when I wish I could hear your laugh, other times it’s in the middle of the day when I catch myself imagining your hand in mine. The distance between us may be wide, but my heart only beats for you, and with every beat, my love grows stronger. I’ll keep loving you harder with each passing day, holding onto the promise that one day, the space between us will vanish, and this distance will be nothing more than a memory we overcame together. Until then, I’ll keep you in my thoughts, my prayers, and my every dream.
+    </div>
+
+    <!-- Cupid Image -->
+    <div class="cupid">
+      <img src="https://ugokawaii.com/wp-content/uploads/2022/10/cupid.gif" alt="Cupid" />
+    </div>
+
+    <!-- Button to show heart -->
+    <button id="showHeartButton">Heart</button>
+
+    <!-- Button to slide to the next message -->
+    <button id="nextMessageButton">Next Message</button>
+
+    <!-- Heart (hidden initially) -->
+    <div id="heart" class="heart"></div>
+
+    <!-- Music iframe will be inserted after button click -->
+    <div id="musicPlayer" class="music"></div>
   </div>
-
-  <div id="photosPage" class="page pictures-page">
-    <h1>📷 My Love Photos 📷</h1>
-    <p>Here are some of my favorite pictures of you ❤️</p>
-    <img src="images/1.jpg" alt="Picture 1">
-    <img src="images/2.jpg" alt="Picture 2">
-    <img src="images/3.jpg" alt="Picture 3">
-    <br>
-    <button onclick="goToPage('mainPage')">⬅ Back to Main</button>
-  </div>
-
-  <script>
-    const container = document.getElementById("hearts-container");
-
-    function createHeart() {
-      const heart = document.createElement("span");
-      heart.classList.add("heart-floating");
-      heart.innerHTML = "❤️";
-      heart.style.left = Math.random() * 100 + "vw"; 
-      heart.style.fontSize = Math.random() * 20 + 15 + "px"; 
-      heart.style.animationDuration = Math.random() * 3 + 4 + "s"; 
-      container.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 7000);
-    }
-
-    // Continuous hearts
-    setInterval(createHeart, 200);
-
-    function goToPage(pageId) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
-    }
-
-    // Buttons
-    document.getElementById("picturesButton").addEventListener("click", function() {
-      goToPage('photosPage');
-      // Add extra hearts when clicking Pictures
-      for(let i=0; i<20; i++) {
-        setTimeout(createHeart, i*100);
-      }
-    });
-
-    document.getElementById("nextMessageButton").addEventListener("click", function() {
-      document.getElementById("message1").style.display = "none";
-      document.getElementById("message2").style.display = "block";
-    });
-
-    document.getElementById("showHeartButton").addEventListener("click", function() {
-      document.getElementById("heart").style.display = "block";
-
-      const musicPlayer = document.getElementById("musicPlayer");
-      musicPlayer.innerHTML = `
-        <iframe width="0" height="0"
-          src="https://www.youtube.com/embed/5fAOjcJc_M8?autoplay=1&loop=1&playlist=5fAOjcJc_M8"
-          frameborder="0"
-          allow="autoplay; encrypted-media">
-        </iframe>
-      `;
-    });
-  </script>
 
   <script src="script.js"></script>
 </body>

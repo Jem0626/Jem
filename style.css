@@ -1,130 +1,80 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+// Floating hearts, tulips, and roses function
+function createEmoji() {
+  const container = document.getElementById("hearts-container");
+  const emoji = document.createElement("span");
+
+  // Pick random emoji
+  const symbols = ["❤️", "🌹", "🌷"];
+  emoji.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+  
+  // Random position and size
+  emoji.classList.add("heart-floating");
+  emoji.style.left = Math.random() * 100 + "vw";
+  emoji.style.fontSize = Math.random() * 20 + 15 + "px";
+  emoji.style.animationDuration = Math.random() * 3 + 4 + "s";
+
+  container.appendChild(emoji);
+
+  // Remove after animation
+  setTimeout(() => {
+    emoji.remove();
+  }, 7000);
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #ff7f7f, #ffb3b3, #ff66b3, #ff3366, #ff0066);
-  background-size: 400% 400%;
-  animation: gradientAnimation 10s ease infinite;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-  color: white;
-  overflow: hidden;
+// Show hearts/tulips/roses & play music
+document.getElementById("showHeartButton").addEventListener("click", function() {
+  // Start floating animation
+  setInterval(createEmoji, 200);
+
+  // Show heart GIF animation
+  document.getElementById("heart").style.display = "block";
+
+  // Play music from YouTube
+  const musicPlayer = document.getElementById("musicPlayer");
+  musicPlayer.innerHTML = `
+    <iframe width="0" height="0"
+      src="https://www.youtube.com/embed/5fAOjcJc_M8?autoplay=1&loop=1&playlist=5fAOjcJc_M8"
+      frameborder="0"
+      allow="autoplay; encrypted-media">
+    </iframe>
+  `;
+});
+
+// Typing effect function
+function typeMessage(elementId, text, speed = 50, callback = null) {
+  const el = document.getElementById(elementId);
+  el.innerHTML = ""; // clear previous content
+  let i = 0;
+  const interval = setInterval(() => {
+    el.innerHTML += text.charAt(i);
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+  }, speed);
 }
 
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+// Messages text
+const messages = {
+  message1: "Even if we’re miles apart, my heart feels like you’re right here beside me. Every day, I carry your smile, your laugh, and your love with me, like a little piece of home I can hold onto. Distance may keep us from holding hands, but it can’t stop me from loving you more each day. One day soon, the space between us will disappear, and I’ll finally get to tell you in person how much you mean to me. Until then, remember you’re my first thought in the morning, my last thought at night, and my favorite dream in between.",
+  message2: "Every message from you feels like a hug I can’t let go of a gentle reminder that no matter how far we are, your love still reaches me. I miss you in ways words could never fully capture. Sometimes it’s in the quiet moments when I wish I could hear your laugh, other times it’s in the middle of the day when I catch myself imagining your hand in mine. The distance between us may be wide, but my heart only beats for you, and with every beat, my love grows stronger. I’ll keep loving you harder with each passing day, holding onto the promise that one day, the space between us will vanish, and this distance will be nothing more than a memory we overcame together. Until then, I’ll keep you in my thoughts, my prayers, and my every dream."
+};
 
-.container {
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
+// Start typing the first message automatically
+typeMessage("message1", messages.message1);
 
-h1 {
-  color: #ffffff;
-  font-size: 3rem;
-  margin-bottom: 30px;
-}
+// Slide to next message with typing
+document.getElementById("nextMessageButton").addEventListener("click", function() {
+  const currentMessage = document.getElementById("message1");
+  const nextMessage = document.getElementById("message2");
 
-.sweet-message {
-  font-size: 1.5rem; /* Smaller font size */
-  font-style: italic;
-  line-height: 2;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  border-radius: 15px;
-  margin-top: 30px;
-  width: 80%; /* To make it fit nicely on the screen */
-  margin-left: auto;
-  margin-right: auto;
-  transition: transform 1s ease-in-out;
-}
+  currentMessage.style.display = "none";
+  nextMessage.style.display = "block";
+  nextMessage.style.transform = "translateY(100px)";
 
-/* Cupid Styling */
-.cupid {
-  margin-top: 30px;
-  position: relative;
-}
-
-.cupid img {
-  width: 150px; /* Adjust size of Cupid image */
-  height: auto;
-  animation: cupidAnimation 5s ease-in-out infinite;
-}
-
-@keyframes cupidAnimation {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(10deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-}
-
-/* Heart Styling */
-.heart {
-  display: none; /* Initially hidden */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('https://i.pinimg.com/originals/d6/fc/4f/d6fc4f12b429da139aaac84525334ad5.gif') no-repeat center center;
-  background-size: 30%; /* Adjust the size of the heart image */
-  animation: heartAnimation 3s ease-out forwards;
-  z-index: 9999; /* Ensure it appears above other content */
-}
-
-@keyframes heartAnimation {
-  0% {
-    transform: scale(0) translate(-50%, -50%);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1) translate(-50%, -50%);
-    opacity: 1;
-  }
-}
-
-/* Button Styling */
-button {
-  background-color: #ff3366;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 20px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-button:hover {
-  background-color: #ff1a52;
-}
-
-/* Music iframe styling (hidden initially) */
-.music iframe {
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-}
+  setTimeout(() => {
+    nextMessage.style.transform = "translateY(0px)";
+    typeMessage("message2", messages.message2); // Start typing second message
+  }, 10);
+});

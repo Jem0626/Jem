@@ -13,10 +13,16 @@
       text-align: center;
       position: relative;
       z-index: 1;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
     }
     .active {
       display: block;
     }
+    .fade-in {
+      opacity: 1 !important;
+    }
+
     /* Fix image size */
     .pictures-page img {
       width: 300px;
@@ -26,6 +32,7 @@
       border-radius: 15px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
+
     /* Floating hearts */
     .heart-floating {
       position: absolute;
@@ -44,10 +51,10 @@
   </style>
 </head>
 <body>
-  <!-- Floating hearts container (outside pages!) -->
+  <!-- Floating hearts container -->
   <div id="hearts-container"></div>
 
-  <div id="mainPage" class="page active">
+  <div id="mainPage" class="page active fade-in">
     <div class="container">
       <h1>For My Love, Alliah</h1>
 
@@ -79,7 +86,7 @@
     <img src="images/2.jpg" alt="Picture 2">
     <img src="images/3.jpg" alt="Picture 3">
     <br>
-    <button onclick="goToPage('mainPage')">⬅ Back to Main</button>
+    <button onclick="goBack()">⬅ Back to Main</button>
   </div>
 
   <script>
@@ -93,7 +100,6 @@
       heart.style.fontSize = Math.random() * 20 + 15 + "px"; 
       heart.style.animationDuration = Math.random() * 3 + 4 + "s"; 
       container.appendChild(heart);
-
       setTimeout(() => heart.remove(), 7000);
     }
 
@@ -101,27 +107,35 @@
     setInterval(createHeart, 200);
 
     function goToPage(pageId) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
+      document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('active', 'fade-in');
+      });
+      const page = document.getElementById(pageId);
+      page.classList.add('active');
+      setTimeout(() => page.classList.add('fade-in'), 10); // trigger fade
     }
 
-    // Buttons
+    function goBack() {
+      goToPage('mainPage');
+    }
+
+    // 📷 Pictures button click
     document.getElementById("picturesButton").addEventListener("click", function() {
       goToPage('photosPage');
-      // Add extra hearts when clicking Pictures
       for(let i=0; i<20; i++) {
         setTimeout(createHeart, i*100);
       }
     });
 
+    // Next message button
     document.getElementById("nextMessageButton").addEventListener("click", function() {
       document.getElementById("message1").style.display = "none";
       document.getElementById("message2").style.display = "block";
     });
 
+    // Show heart button
     document.getElementById("showHeartButton").addEventListener("click", function() {
       document.getElementById("heart").style.display = "block";
-
       const musicPlayer = document.getElementById("musicPlayer");
       musicPlayer.innerHTML = `
         <iframe width="0" height="0"
@@ -132,7 +146,5 @@
       `;
     });
   </script>
-
-  <script src="script.js"></script>
 </body>
 </html>

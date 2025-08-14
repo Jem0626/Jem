@@ -3,11 +3,9 @@ function createEmoji() {
   const container = document.getElementById("hearts-container");
   const emoji = document.createElement("span");
 
-  // Pick random emoji
   const symbols = ["❤️", "🌹", "🌷"];
   emoji.textContent = symbols[Math.floor(Math.random() * symbols.length)];
   
-  // Random position and size
   emoji.classList.add("heart-floating");
   emoji.style.left = Math.random() * 100 + "vw";
   emoji.style.fontSize = Math.random() * 20 + 15 + "px";
@@ -15,7 +13,6 @@ function createEmoji() {
 
   container.appendChild(emoji);
 
-  // Remove after animation
   setTimeout(() => {
     emoji.remove();
   }, 7000);
@@ -23,13 +20,10 @@ function createEmoji() {
 
 // Show hearts/tulips/roses & play music
 document.getElementById("showHeartButton").addEventListener("click", function() {
-  // Start floating animation
   setInterval(createEmoji, 200);
 
-  // Show heart GIF animation
   document.getElementById("heart").style.display = "block";
 
-  // Play music from YouTube
   const musicPlayer = document.getElementById("musicPlayer");
   musicPlayer.innerHTML = `
     <iframe width="0" height="0"
@@ -43,7 +37,7 @@ document.getElementById("showHeartButton").addEventListener("click", function() 
 // Typing effect function
 function typeMessage(elementId, text, speed = 50, callback = null) {
   const el = document.getElementById(elementId);
-  el.innerHTML = ""; // clear previous content
+  el.innerHTML = "";
   let i = 0;
   const interval = setInterval(() => {
     el.innerHTML += text.charAt(i);
@@ -75,6 +69,16 @@ document.getElementById("nextMessageButton").addEventListener("click", function(
 
   setTimeout(() => {
     nextMessage.style.transform = "translateY(0px)";
-    typeMessage("message2", messages.message2); // Start typing second message
+    typeMessage("message2", messages.message2);
   }, 10);
+});
+
+// Fade-in Pictures when button clicked
+document.getElementById("picturesBtn").addEventListener("click", function() {
+  let picturesPage = document.getElementById("picturesPage");
+
+  picturesPage.style.display = "block";
+  picturesPage.classList.remove("fade-in");
+  void picturesPage.offsetWidth; // force browser reflow
+  picturesPage.classList.add("fade-in");
 });
